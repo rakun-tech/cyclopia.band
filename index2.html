@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Death Band</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'band-black': '#121212',
+                        'band-yellow': '#FFD100',
+                        'band-green': '#00FF66',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Roboto:wght@300;400;700&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: white;
+        }
+
+        h1,
+        h2,
+        h3,
+        .logo-text {
+            font-family: 'Audiowide', cursive;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #00FF66;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-item img {
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .tab-active {
+            background-color: #00FF66;
+            color: #121212;
+        }
+
+        .concert-item {
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .concert-item:hover {
+            border-left-color: #FFD100;
+            background-color: rgba(255, 209, 0, 0.1);
+        }
+
+        .hamburger div {
+            height: 3px;
+            background-color: #FFD100;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active .line2 {
+            opacity: 0;
+        }
+
+        .hamburger.active .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.5s ease-in;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .section-heading {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            bottom: -10px;
+            left: 0;
+            background-color: #FFD100;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-band-black bg-opacity-95 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- Placeholder for logo -->
+                <div class="w-12 h-12 mr-3 bg-band-yellow rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-band-black" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                    </svg>
+                </div>
+                <span class="logo-text text-2xl font-bold text-white">BAND<span
+                        class="text-band-green">NAME</span></span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#stream" class="nav-link text-white hover:text-band-yellow transition-colors">STREAM NOW!</a>
+                <a href="#bio" class="nav-link text-white hover:text-band-yellow transition-colors">BIO</a>
+                <a href="#concerts" class="nav-link text-white hover:text-band-yellow transition-colors">CONCERTS</a>
+                <a href="#media" class="nav-link text-white hover:text-band-yellow transition-colors">MEDIA</a>
+            </nav>
+
+            <!-- Hamburger Menu -->
+            <div class="md:hidden">
+                <div class="hamburger cursor-pointer" id="hamburger-btn">
+                    <div class="line1 w-6"></div>
+                    <div class="line2 w-6"></div>
+                    <div class="line3 w-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-menu fixed top-0 left-0 h-full w-full bg-band-black bg-opacity-95 z-40 flex flex-col items-center justify-center"
+            id="mobile-menu">
+            <a href="#stream" class="mobile-nav-link py-4 text-xl text-white hover:text-band-yellow">STREAM NOW!</a>
+            <a href="#bio" class="mobile-nav-link py-4 text-xl text-white hover:text-band-yellow">BIO</a>
+            <a href="#concerts" class="mobile-nav-link py-4 text-xl text-white hover:text-band-yellow">CONCERTS</a>
+            <a href="#media" class="mobile-nav-link py-4 text-xl text-white hover:text-band-yellow">MEDIA</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-r from-band-black via-transparent to-band-black opacity-80">
+            </div>
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs>
+                    <radialGradient id="rgrad" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
+                        <stop offset="0%" style="stop-color:#00FF66;stop-opacity:0.3" />
+                        <stop offset="100%" style="stop-color:#121212;stop-opacity:0" />
+                    </radialGradient>
+                </defs>
+                <rect x="0" y="0" width="100" height="100" fill="url(#rgrad)"></rect>
+            </svg>
+        </div>
+
+        <div class="container mx-auto px-4 z-10 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white">
+                <span class="block">PROGRESSIVE</span>
+                <span class="text-band-yellow">TECH DEATH</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-10 text-gray-300">UNLEASHING SONIC DEVASTATION</p>
+            <a href="#stream"
+                class="inline-block bg-band-green text-band-black font-bold py-3 px-8 rounded-full hover:bg-opacity-80 transition-all transform hover:scale-105">
+                LISTEN NOW
+            </a>
+        </div>
+
+        <!-- Animated elements -->
+        <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-band-black to-transparent"></div>
+    </section>
+
+    <!-- Stream Now Section -->
+    <section id="stream" class="py-20 bg-band-black">
+        <div class="container mx-auto px-4">
+            <h2 class="section-heading text-4xl font-bold mb-12 text-white">STREAM <span
+                    class="text-band-yellow">NOW!</span></h2>
+
+            <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+                <div class="aspect-w-16 aspect-h-9">
+                    <iframe class="w-full rounded-lg" style="height: 380px;"
+                        src="https://open.spotify.com/embed/artist/4Z8W4fKeB5YxbusRsdQVPb" frameborder="0"
+                        allowtransparency="true" allow="encrypted-media"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bio Section -->
+    <section id="bio" class="py-20 bg-gradient-to-b from-band-black to-gray-900">
+        <div class="container mx-auto px-4">
+            <h2 class="section-heading text-4xl font-bold mb-12 text-white">BAND <span
+                    class="text-band-green">BIO</span></h2>
+
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+                <div class="md:w-1/3">
+                    <div class="relative">
+                        <div class="absolute -inset-2 bg-band-yellow opacity-30 blur-md rounded-lg"></div>
+                        <div class="relative bg-gray-800 p-6 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-24 w-24 mx-auto text-band-yellow opacity-30" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-2/3">
+                    <p class="text-lg text-gray-300 mb-6">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit
+                        arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.
+                        Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.
+                    </p>
+                    <p class="text-lg text-gray-300">
+                        Suspendisse in orci enim. Donec suscipit ante in hendrerit placerat. Etiam diam elit, hendrerit
+                        sit amet placerat a, commodo at turpis. Sed porttitor, odio in blandit ornare, arcu risus
+                        pulvinar ante, a gravida augue justo sagittis ante. Sed mattis consectetur metus quis rutrum.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concerts Section -->
+    <section id="concerts" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <h2 class="section-heading text-4xl font-bold mb-12 text-white">LIVE <span
+                    class="text-band-yellow">CONCERTS</span></h2>
+
+            <!-- Tabs -->
+            <div class="flex mb-8 border-b border-gray-700">
+                <button id="upcoming-tab" class="tab-active py-2 px-6 font-bold">UPCOMING</button>
+                <button id="past-tab" class="py-2 px-6 text-gray-400 font-bold">PAST</button>
+            </div>
+
+            <!-- Upcoming Concerts -->
+            <div id="upcoming-concerts" class="space-y-4">
+                <div
+                    class="concert-item bg-gray-800 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <div class="text-band-yellow font-bold">JUN 15, 2023</div>
+                        <h3 class="text-xl font-bold">Metal Mayhem Festival</h3>
+                        <p class="text-gray-400">New York, NY - The Bowery Ballroom</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
+                            class="inline-block bg-band-green text-band-black font-bold py-2 px-4 rounded hover:bg-opacity-80 transition-all">
+                            WATCH TEASER
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                    class="concert-item bg-gray-800 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <div class="text-band-yellow font-bold">JUL 22, 2023</div>
+                        <h3 class="text-xl font-bold">Tech Death Summit</h3>
+                        <p class="text-gray-400">Los Angeles, CA - The Whisky a Go Go</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
+                            class="inline-block bg-band-green text-band-black font-bold py-2 px-4 rounded hover:bg-opacity-80 transition-all">
+                            WATCH TEASER
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                    class="concert-item bg-gray-800 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <div class="text-band-yellow font-bold">AUG 05, 2023</div>
+                        <h3 class="text-xl font-bold">Brutal Assault Festival</h3>
+                        <p class="text-gray-400">Prague, Czech Republic - O2 Arena</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
+                            class="inline-block bg-band-green text-band-black font-bold py-2 px-4 rounded hover:bg-opacity-80 transition-all">
+                            WATCH TEASER
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Concerts -->
+            <div id="past-concerts" class="space-y-4 hidden">
+                <div
+                    class="concert-item bg-gray-800 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <div class="text-band-yellow font-bold">MAR 12, 2023</div>
+                        <h3 class="text-xl font-bold">Progressive Metal Night</h3>
+                        <p class="text-gray-400">Chicago, IL - House of Blues</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
+                            class="inline-block bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 transition-all">
+                            WATCH RECAP
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                    class="concert-item bg-gray-800 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <div class="text-band-yellow font-bold">FEB 28, 2023</div>
+                        <h3 class="text-xl font-bold">Extreme Metal Showcase</h3>
+                        <p class="text-gray-400">Seattle, WA - El Corazon</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
+                            class="inline-block bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 transition-all">
+                            WATCH RECAP
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                    class="concert-item bg-gray-800 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <div class="text-band-yellow font-bold">JAN 15, 2023</div>
+                        <h3 class="text-xl font-bold">Winter Metal Fest</h3>
+                        <p class="text-gray-400">Denver, CO - Summit Music Hall</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"
+                            class="inline-block bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 transition-all">
+                            WATCH RECAP
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Section -->
+    <section id="media" class="py-20 bg-gradient-to-b from-gray-900 to-band-black">
+        <div class="container mx-auto px-4">
+            <h2 class="section-heading text-4xl font-bold mb-12 text-white">MEDIA <span
+                    class="text-band-green">GALLERY</span></h2>
+
+            <!-- Tabs -->
+            <div class="flex mb-8 border-b border-gray-700">
+                <button id="photos-tab" class="tab-active py-2 px-6 font-bold">PHOTOS</button>
+                <button id="videos-tab" class="py-2 px-6 text-gray-400 font-bold">VIDEOS</button>
+            </div>
+
+            <!-- Photos Gallery -->
+            <div id="photos-gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Photo 1 -->
+                <div class="gallery-item rounded-lg overflow-hidden">
+                    <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="300" fill="#1a1a1a" />
+                        <circle cx="200" cy="150" r="80" fill="#333" />
+                        <polygon points="200,70 230,120 290,120 240,150 260,210 200,180 140,210 160,150 110,120 170,120"
+                            fill="#FFD100" opacity="0.8" />
+                        <rect x="50" y="50" width="300" height="200" stroke="#00FF66" stroke-width="2" fill="none" />
+                    </svg>
+                </div>
+
+                <!-- Photo 2 -->
+                <div class="gallery-item rounded-lg overflow-hidden">
+                    <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="300" fill="#1a1a1a" />
+                        <rect x="50" y="50" width="300" height="200" fill="#333" />
+                        <circle cx="150" cy="120" r="40" fill="#FFD100" opacity="0.6" />
+                        <circle cx="250" cy="180" r="60" fill="#00FF66" opacity="0.4" />
+                        <line x1="50" y1="50" x2="350" y2="250" stroke="#FFD100" stroke-width="2" />
+                        <line x1="350" y1="50" x2="50" y2="250" stroke="#00FF66" stroke-width="2" />
+                    </svg>
+                </div>
+
+                <!-- Photo 3 -->
+                <div class="gallery-item rounded-lg overflow-hidden">
+                    <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="300" fill="#1a1a1a" />
+                        <path d="M50,150 C100,50 300,50 350,150 C300,250 100,250 50,150 Z" fill="#333" />
+                        <circle cx="150" cy="150" r="30" fill="#FFD100" />
+                        <circle cx="250" cy="150" r="30" fill="#00FF66" />
+                        <rect x="100" y="200" width="200" height="20" fill="#FFD100" />
+                    </svg>
+                </div>
+
+                <!-- Photo 4 -->
+                <div class="gallery-item rounded-lg overflow-hidden">
+                    <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="300" fill="#1a1a1a" />
+                        <polygon points="200,50 350,150 200,250 50,150" fill="#333" />
+                        <circle cx="200" cy="150" r="50" fill="#1a1a1a" />
+                        <circle cx="200" cy="150" r="40" fill="#00FF66" opacity="0.7" />
+                        <line x1="100" y1="100" x2="300" y2="200" stroke="#FFD100" stroke-width="3" />
+                        <line x1="100" y1="200" x2="300" y2="100" stroke="#FFD100" stroke-width="3" />
+                    </svg>
+                </div>
+
+                <!-- Photo 5 -->
+                <div class="gallery-item rounded-lg overflow-hidden">
+                    <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="300" fill="#1a1a1a" />
+                        <rect x="75" y="75" width="250" height="150" fill="#333" />
+                        <circle cx="200" cy="150" r="70" fill="#1a1a1a" />
+                        <path d="M150,100 L250,100 L250,200 L150,200 Z" fill="#FFD100" opacity="0.5" />
+                        <path d="M130,80 L270,80 L270,220 L130,220 Z" stroke="#00FF66" stroke-width="2" fill="none" />
+                    </svg>
+                </div>
+
+                <!-- Photo 6 -->
+                <div class="gallery-item rounded-lg overflow-hidden">
+                    <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="300" fill="#1a1a1a" />
+                        <circle cx="200" cy="150" r="100" fill="#333" />
+                        <rect x="150" y="100" width="100" height="100" fill="#1a1a1a" />
+                        <polygon points="150,100 250,100 200,150" fill="#FFD100" />
+                        <polygon points="150,200 250,200 200,150" fill="#00FF66" />
+                        <circle cx="200" cy="150" r="20" fill="#FFD100" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Videos Gallery -->
+            <div id="videos-gallery" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
+                <!-- Video 1 -->
+                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800">
+                    <div class="relative">
+                        <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#1a1a1a" />
+                            <rect x="50" y="50" width="300" height="200" fill="#333" />
+                            <circle cx="200" cy="150" r="50" fill="#1a1a1a" />
+                            <polygon points="185,125 225,150 185,175" fill="#FFD100" />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-band-yellow bg-opacity-80 flex items-center justify-center cursor-pointer hover:bg-opacity-100 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-band-black" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold">Live at Metal Mayhem Festival</h3>
+                        <p class="text-gray-400">June 15, 2023</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800">
+                    <div class="relative">
+                        <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#1a1a1a" />
+                            <rect x="50" y="50" width="300" height="200" fill="#333" />
+                            <circle cx="200" cy="150" r="50" fill="#1a1a1a" />
+                            <polygon points="185,125 225,150 185,175" fill="#00FF66" />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-band-green bg-opacity-80 flex items-center justify-center cursor-pointer hover:bg-opacity-100 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-band-black" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold">Official Music Video - "Sonic Devastation"</h3>
+                        <p class="text-gray-400">April 20, 2023</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800">
+                    <div class="relative">
+                        <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#1a1a1a" />
+                            <rect x="50" y="50" width="300" height="200" fill="#333" />
+                            <circle cx="200" cy="150" r="50" fill="#1a1a1a" />
+                            <polygon points="185,125 225,150 185,175" fill="#FFD100" />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-band-yellow bg-opacity-80 flex items-center justify-center cursor-pointer hover:bg-opacity-100 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-band-black" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold">Studio Session - Recording "Technical Oblivion"</h3>
+                        <p class="text-gray-400">March 5, 2023</p>
+                    </div>
+                </div>
+
+                <!-- Video 4 -->
+                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800">
+                    <div class="relative">
+                        <svg class="w-full h-64 object-cover" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#1a1a1a" />
+                            <rect x="50" y="50" width="300" height="200" fill="#333" />
+                            <circle cx="200" cy="150" r="50" fill="#1a1a1a" />
+                            <polygon points="185,125 225,150 185,175" fill="#00FF66" />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-band-green bg-opacity-80 flex items-center justify-center cursor-pointer hover:bg-opacity-100 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-band-black" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold">Guitar Playthrough - "Algorithmic Annihilation"</h3>
+                        <p class="text-gray-400">February 12, 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 bg-band-black">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 mr-3 bg-band-yellow rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-band-black" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                            </svg>
+                        </div>
+                        <span class="logo-text text-xl font-bold text-white">BAND<span
+                                class="text-band-green">NAME</span></span>
+                    </div>
+                </div>
+
+                <div class="flex space-x-4">
+                    <!-- Social Media Icons -->
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-band-yellow transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                        </svg>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-band-yellow transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-band-yellow transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                        </svg>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-band-yellow transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
+                        </svg>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-band-yellow transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center text-gray-500">
+                <p>&copy; 2023 BANDNAME. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Concerts Tab Toggle
+        const upcomingTab = document.getElementById('upcoming-tab');
+        const pastTab = document.getElementById('past-tab');
+        const upcomingConcerts = document.getElementById('upcoming-concerts');
+        const pastConcerts = document.getElementById('past-concerts');
+
+        upcomingTab.addEventListener('click', () => {
+            upcomingTab.classList.add('tab-active');
+            pastTab.classList.remove('tab-active');
+            upcomingConcerts.classList.remove('hidden');
+            pastConcerts.classList.add('hidden');
+        });
+
+        pastTab.addEventListener('click', () => {
+            pastTab.classList.add('tab-active');
+            upcomingTab.classList.remove('tab-active');
+            pastConcerts.classList.remove('hidden');
+            upcomingConcerts.classList.add('hidden');
+        });
+
+        // Media Tab Toggle
+        const photosTab = document.getElementById('photos-tab');
+        const videosTab = document.getElementById('videos-tab');
+        const photosGallery = document.getElementById('photos-gallery');
+        const videosGallery = document.getElementById('videos-gallery');
+
+        photosTab.addEventListener('click', () => {
+            photosTab.classList.add('tab-active');
+            videosTab.classList.remove('tab-active');
+            photosGallery.classList.remove('hidden');
+            videosGallery.classList.add('hidden');
+        });
+
+        videosTab.addEventListener('click', () => {
+            videosTab.classList.add('tab-active');
+            photosTab.classList.remove('tab-active');
+            videosGallery.classList.remove('hidden');
+            photosGallery.classList.add('hidden');
+        });
+    </script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'93e149284481f2ed',t:'MTc0Njk2MjQxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+</html>
